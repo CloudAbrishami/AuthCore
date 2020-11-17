@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework import permissions
 from rest_framework import views
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView, CreateAPIView, UpdateAPIView, RetrieveAPIView
 from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, RetrieveModelMixin
 from rest_framework.response import Response
 from rest_framework.status import HTTP_404_NOT_FOUND, HTTP_400_BAD_REQUEST
@@ -13,7 +13,7 @@ from Auth.utils import generate_access_token
 
 class LoginApi(views.APIView):
     permission_classes = (permissions.AllowAny,)
-    http_method_names = ["post"]
+    http_method_names = ["POST"]
 
     def post(self, request):
         serializer = UserLoginSerializer(data=request.data)
@@ -38,7 +38,7 @@ class LoginApi(views.APIView):
             })
 
 
-class RegisterApi(GenericAPIView, CreateModelMixin, UpdateModelMixin):
+class RegisterApi(CreateAPIView, UpdateAPIView):
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
 
@@ -50,7 +50,7 @@ class RegisterApi(GenericAPIView, CreateModelMixin, UpdateModelMixin):
         return [permission() for permission in permission_classes]
 
 
-class ProfileApi(GenericAPIView, RetrieveModelMixin):
+class ProfileApi(RetrieveAPIView):
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
     permission_classes = OwnProfilePermission
