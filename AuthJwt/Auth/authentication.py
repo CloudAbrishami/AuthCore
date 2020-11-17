@@ -33,25 +33,6 @@ class SafeJWTAuthentication(BaseAuthentication):
         return (user, payload)
 
 
-class Permission_control:
-
-    def __init__(self, name) -> None:
-        super().__init__()
-        self.name = name
-
-    def auth(self, request):
-        name = self.name
-        if f'/{name}/' in request.build_absolute_uri():
-            if request.method == "POST":
-                return request.auth[f"create_{name}"]
-            elif request.method == "PUT" or request.method == "PATCH ":
-                return request.auth[f"update_{name}"]
-            elif request.method == "DELETE":
-                return request.auth[f"delete_{name}"]
-            else:
-                return False
-
-
 class ApiAuthentication(permissions.BasePermission):
 
     def has_permission(self, request, view):
@@ -60,10 +41,7 @@ class ApiAuthentication(permissions.BasePermission):
 
         if request.auth is None:
             return False
-        # sample
-        # if Permission_control("message").auth(request):
-        #     return True
-
+        # todo add control for change access level just for admin
         return False
 
     def has_object_permission(self, request, view, obj):
