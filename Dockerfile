@@ -8,9 +8,8 @@ RUN mkdir /src
 WORKDIR /src
 
 # Installing requirements
-ADD AuthJwt/requirements.txt /src
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+ADD AuthJwt/requirement.txt /src
+RUN pip install -r requirement.txt
 
 EXPOSE 8000
 
