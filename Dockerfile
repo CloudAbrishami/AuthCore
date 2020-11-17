@@ -1,6 +1,9 @@
 FROM python:3
 LABEL MAINTAINER="Mahdi Akbari Zarkesh | https://learn2implemnet.ir"
 
+# Keeps Python from generating .pyc files in the container
+ENV PYTHONDONTWRITEBYTECODE=1
+
 ENV PYTHONUNBUFFERED 1
 
 # Set working directory

@@ -1,6 +1,7 @@
 #!/bin/bash
 # Set ENV_PATH
 export ENV_PATH=/.env
+export DEBUG=True
 # Collect static files
 echo "Collect static files"
 python manage.py collectstatic --noinput

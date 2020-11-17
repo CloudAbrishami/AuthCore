@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: django-auth
+    type: backend
+  name: django-auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django-auth
+      type: backend
+  template:
+    metadata:
+      labels:
+        app: django-auth
+        type: backend
+    spec:
+      containers:
+      - image: kuber/djangoauth:latest
+        imagePullPolicy: Never
+        name: django-auth
+        ports:
+        - containerPort: 8000
+          name: django-auth
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"  
