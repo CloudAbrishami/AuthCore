@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: authcore-db
+  namespace: abrishami-cloud
+type: Opaque
+data:
+  #"<base64-encoded postgres-username>"
+  postgres-username: YWRtaW4=
+  #"<base64-encoded postgres-password>"
+  postgres-password: YWRtaW5qb24=

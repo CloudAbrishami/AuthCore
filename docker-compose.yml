@@ -1,0 +1,29 @@
+version: '3.1'
+
+services:
+  authcore:
+    build:
+      context: ./
+      dockerfile: Dockerfile.developer
+    image: authcordevelop
+    container_name: cofebazaar-app
+    restart: unless-stopped
+    working_dir: /src
+    volumes:
+      - ./AuthJwt:/src
+    environment:
+      - POSTGRES_USERNAME=some-dev-user
+      - POSTGRES_PASSWORD=some-dev-password
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db-postgres
+    links:
+      - db-postgres
+  db-postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=Auth-core
+      - POSTGRES_USER=some-dev-user
+      - POSTGRES_PASSWORD=some-dev-password
+

@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: django-auth
+    type: backend
+  name: django-auth
+  namespace: abrishami-cloud
+spec:
+  replicas: 3
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: django-auth
+      type: backend
+  template:
+    metadata:
+      labels:
+        app: django-auth
+        type: backend
+    spec:
+      containers:
+        - image: kuber/djangoauth:latest
+          imagePullPolicy: Never
+          name: django-auth
+          ports:
+            - containerPort: 8000
+              name: django-auth
+          env:
+            - name: DEBUG
+              value: "False"
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: authcore-db
+                  key: postgres-username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: authcore-db
+                  key: postgres-password
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: authcore-secret
+                  key: jwt-secret
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: authcore-secret
+                  key: secret-key
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "1.0"
+          livenessProbe:
+            httpGet:
+              path: /status/
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /status/
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 15
+          lifecycle:
+            preStop:
+              exec:
+                command: [ "sleep", "10" ]

@@ -19,7 +19,7 @@ class SafeJWTAuthentication(BaseAuthentication):
             # header = 'Token xxxxxxxxxxxxxxxxxxxxxxxx'
             access_token = authorization_heaader.split(' ')[1]
             payload = jwt.decode(
-                access_token, settings.SECRET_KEY, algorithms=['HS256'])
+                access_token, settings.JWT_SECRET, algorithms=['HS256'])
 
         except jwt.ExpiredSignatureError:
             raise exceptions.AuthenticationFailed('access_token expired')

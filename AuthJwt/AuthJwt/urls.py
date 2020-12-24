@@ -16,7 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from AuthJwt.views import StatusView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('status/', StatusView.as_view()),
     path('', include('Auth.urls')),
 ]
