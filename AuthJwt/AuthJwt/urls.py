@@ -17,9 +17,14 @@ from django.contrib import admin
 from django.urls import path, include
 
 from AuthJwt.views import StatusView
+from Auth.handlers import grpc_handlers as Auth_grpc_handle
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('status/', StatusView.as_view()),
     path('', include('Auth.urls')),
 ]
+
+
+def grpc_handlers(server):
+    Auth_grpc_handle(server)

@@ -15,6 +15,16 @@ class SafeJWTAuthentication(BaseAuthentication):
 
         if not authorization_heaader:
             return None
+        payload = self.extract_auth(authorization_heaader)
+
+        user = User.objects.filter(id=payload['user_id']).first()
+        if user is None:
+            raise exceptions.AuthenticationFailed('User not found')
+
+        return (user, payload)
+
+    @staticmethod
+    def extract_auth(authorization_heaader):
         try:
             # header = 'Token xxxxxxxxxxxxxxxxxxxxxxxx'
             access_token = authorization_heaader.split(' ')[1]
@@ -25,12 +35,7 @@ class SafeJWTAuthentication(BaseAuthentication):
             raise exceptions.AuthenticationFailed('access_token expired')
         except IndexError:
             raise exceptions.AuthenticationFailed('Token prefix missing')
-
-        user = User.objects.filter(id=payload['user_id']).first()
-        if user is None:
-            raise exceptions.AuthenticationFailed('User not found')
-
-        return (user, payload)
+        return payload
 
 
 class ApiAuthentication(permissions.BasePermission):

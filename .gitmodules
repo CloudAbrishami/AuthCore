@@ -1,0 +1,3 @@
+[submodule "AuthJwt/shared_proto"]
+	path = AuthJwt/shared_proto
+	url = https://github.com/CloudAbrishami/shared_proto.git

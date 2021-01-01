@@ -41,3 +41,16 @@ class UserTest(TestCase):
             content_type='application/json'
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+
+class GRPCTest(TestCase):
+    def test_token(self):
+        import grpc
+        import microservices_Auth_pb2
+        import microservices_Auth_pb2_grpc
+        invalid_token = ""
+        with grpc.insecure_channel('localhost:50051') as channel:
+            stub = microservices_Auth_pb2_grpc.AccessControlStub(channel)
+            ans = stub.Retrieve(microservices_Auth_pb2.AccessRequest(token=invalid_token, targetEndpoint="/list",
+                                                                     microServiceName="test"))
+            print(ans)

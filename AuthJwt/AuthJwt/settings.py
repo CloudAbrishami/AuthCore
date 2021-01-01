@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_grpc_framework',
     'rest_framework',
     'Auth'
 ]
@@ -82,8 +83,8 @@ DATABASES = {
         'HOST': 'db-postgres',
         'PORT': 5432,
         'NAME': 'Auth-core',
-        'USER': os.environ.get('POSTGRES_USERNAME'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'USER': os.environ.get('POSTGRES_USERNAME', 'some-dev-user'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'some-dev-password'),
     }
 }
 
@@ -125,7 +126,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 
 AUTH_USER_MODEL = 'Auth.User'
 
