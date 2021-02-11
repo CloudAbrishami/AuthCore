@@ -12,9 +12,8 @@ from Auth.utils import generate_access_token
 
 class LoginApi(views.APIView):
     permission_classes = (permissions.AllowAny,)
-    http_method_names = ["POST"]
 
-    def post(self, request):
+    def post(self, request, format=None):
         serializer = UserLoginSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, HTTP_400_BAD_REQUEST)

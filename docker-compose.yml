@@ -16,6 +16,7 @@ services:
       - POSTGRES_PASSWORD=some-dev-password
     ports:
       - '8000:8000'
+      - '50051:50051'
     depends_on:
       - db-postgres
     links:
