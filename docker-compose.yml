@@ -6,7 +6,7 @@ services:
       context: ./
       dockerfile: Dockerfile.developer
     image: authcordevelop
-    container_name: cofebazaar-app
+    container_name: authcore-app
     restart: unless-stopped
     working_dir: /src
     volumes:

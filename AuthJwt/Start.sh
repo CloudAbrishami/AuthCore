@@ -13,6 +13,6 @@ python manage.py migrate
 
 # Start server
 echo "Starting server"
-python manage.py grpcrunserver &
+python manage.py grpcrunserver 0.0.0.0:50051 --max-workers 5 &
 gunicorn --chdir /src --bind :8000 AuthJwt.wsgi:application
 # python manager.py runserver 0.0.0.0:8000
